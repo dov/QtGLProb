@@ -1,0 +1,11 @@
+Dov Grobgeld <dov.grobgeld@gmail.com>
+2014-11-20 Thu
+
+This code illustrates a problem with OpenGL under Qt5. The same code (with an ifdef for includes) is running under both qt4 and qt5 in Linux. The program loads a model of about ~70k triangles and lets the user interact with it with the mouse. In Qt4 there is the feeling that the model immediately follows the mouse. But in Qt5 the feeling is that the mouse events are put into a queue and they continue being played back until the queue is empty, which can happen a few seconds after the user has stopped moving the mouse.
+
+There are three different ways that this code can be run:
+
+1. Under Qt4 - the interaction works as expected.
+2. Under Qt5 - the interaction is very slow.
+3. Under Qt5 with the environment variable "vblank_mode=0". The interaction is ok or a small window, but when increasing to the whole screen it is too slow.
+
