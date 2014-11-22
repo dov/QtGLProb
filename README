@@ -9,3 +9,8 @@ There are three different ways that this code can be run:
 2. Under Qt5 - the interaction is very slow.
 3. Under Qt5 with the environment variable "vblank_mode=0". The interaction is ok or a small window, but when increasing to the whole screen it is too slow.
 
+2014-11-22 Sat
+
+Fixed problem! The problem was that I was using update() instead of updateGL() to trigger a redraw.
+
+I'm still leaving this repository here as I believe it is a nice example of how to create an interactive 3D environment for Qt.

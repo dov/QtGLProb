@@ -36,9 +36,6 @@ float boxv[][3] = {
     { -0.5,  0.5,  0.5 } // 7
 };
 
-// Found empirically
-static bool readyForMouse = false;
-
 QSize ModelViewerWidget::minimumSizeHint() const
 {
   return QSize(300, 300);
@@ -91,8 +88,6 @@ void ModelViewerWidget::paintGL()
     
   glPopMatrix();
 
-  setMouseTracking(true);
-  readyForMouse = true;
 }
 
 void ModelViewerWidget::resizeGL(int width, int height)
@@ -113,8 +108,6 @@ void ModelViewerWidget::mousePressEvent(QMouseEvent *event)
 {
   beginX = event->x();
   beginY = event->y();
-  setMouseTracking(true);
-  readyForMouse = true;
 }
 
 void ModelViewerWidget::mouseMoveEvent(QMouseEvent *event)
@@ -125,7 +118,7 @@ void ModelViewerWidget::mouseMoveEvent(QMouseEvent *event)
   double y = event->y();
   float d_quat[4];
 
-  if (readyForMouse && event->buttons() == Qt::LeftButton) {
+  if (event->buttons() == Qt::LeftButton) {
     trackball (d_quat,
                (2.0 * beginX - w) / w,
                (h - 2.0 * beginY) / h,
@@ -136,10 +129,8 @@ void ModelViewerWidget::mouseMoveEvent(QMouseEvent *event)
   
     beginX = x;
     beginY = y;
-    setMouseTracking(false);
-    readyForMouse = false;
   }
-  updateGL();
+  update();
 }
 
 void ModelViewerWidget::wheelEvent(QWheelEvent *event)
@@ -154,7 +145,7 @@ void ModelViewerWidget::wheelEvent(QWheelEvent *event)
   else if (this->view_scale < VIEW_SCALE_MIN)
       this->view_scale = VIEW_SCALE_MIN;
 
-  updateGL();
+  update();
 }
 
 // Create the static shaders.
